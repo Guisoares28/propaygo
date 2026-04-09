@@ -58,6 +58,7 @@ func main() {
 	protected.Use(middleware.AuthMiddleware(tokenService))
 	{
 		protected.POST("/account", accountController.RegisterAccount)
+		protected.POST("/account/:id", accountController.ChangeStatus)
 	}
 
 	r.Run(":8000")

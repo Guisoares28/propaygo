@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"propay/internal/controller/dto"
 	"propay/internal/service"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -49,4 +50,29 @@ func (ac AccountController) RegisterAccount(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, accountEntity)
+}
+
+func (ac *AccountController) ChangeStatus(c *gin.Context) {
+	accountID := c.Param("id")
+	idUser, exists := c.Get("user_id")
+
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"Error: ": "Erro ao recuperar o ID",
+		})
+		return
+	}
+
+	userID := idUser.(uint)
+
+	id, err := strconv.Atoi(accountID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"Error": "ID inváldo",
+		})
+		return
+	}
+
+	ac.accountService.ChangeStatus(uint(id), userID)
 }

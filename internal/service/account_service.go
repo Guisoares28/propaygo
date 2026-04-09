@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"propay/internal/model"
 	"propay/internal/repository"
 )
@@ -26,4 +27,21 @@ func (as *AccountService) Create(userID uint, title string, amount float64) (*mo
 	}
 
 	return account, nil
+}
+
+func (as *AccountService) ChangeStatus(accountID uint, userID uint) error {
+
+	account, err := as.accountRepository.FindAccountByID(accountID, userID)
+
+	if err != nil {
+		return errors.New("Nenhuma conta foi encontrada")
+	}
+
+	err = as.accountRepository.ChangeStatus(account.ID)
+
+	if err != nil {
+		return errors.New("Erro ao mudar o status")
+	}
+
+	return nil
 }
