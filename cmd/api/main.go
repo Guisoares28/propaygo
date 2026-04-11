@@ -8,6 +8,7 @@ import (
 	"propay/internal/repository"
 	"propay/internal/service"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -24,6 +25,13 @@ func main() {
 	config.ConnectDatabase() //Chamando essa função as tabelas já serão criadas automaticamente pelo gorm.
 
 	r := gin.Default()
+
+	//Configurando cors
+	configCors := cors.DefaultConfig()
+	configCors.AllowOrigins = []string{"http://127.0.0.1:5500"}                   //url do live server
+	configCors.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"} //config do header
+
+	r.Use(cors.New(configCors))
 
 	// Repositories
 	userRepo := repository.NewUserRepository(config.DB)
@@ -46,7 +54,7 @@ func main() {
 	authController := controller.NewAuthController(authService)
 
 	//Rotas User
-	r.POST("/user", userController.RegisterUser)
+	r.POST("/user", userController.RegisterUser) //cadastrar usuário
 
 	//Rotas Account
 
@@ -59,6 +67,7 @@ func main() {
 	{
 		protected.POST("/account", accountController.RegisterAccount)
 		protected.POST("/account/:id", accountController.ChangeStatus)
+		protected.GET("/accounts", accountController.FindAllAccountsByID)
 	}
 
 	r.Run(":8000")

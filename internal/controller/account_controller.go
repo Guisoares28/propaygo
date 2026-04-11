@@ -18,13 +18,13 @@ func NewAccountController(accountService *service.AccountService) *AccountContro
 }
 
 func (ac AccountController) RegisterAccount(c *gin.Context) {
-	var account *dto.AccountRequestDto
+	var account dto.AccountRequestDto
 
 	id, exists := c.Get("user_id")
 
 	if !exists {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error: ": "Erro ao recuperar o ID",
+			"error: ": "Erro ao recuperar o ID",
 		})
 		return
 	}
@@ -32,7 +32,9 @@ func (ac AccountController) RegisterAccount(c *gin.Context) {
 	userID := id.(uint)
 
 	if err := c.ShouldBindJSON(&account); err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Erro ao converter json",
+		})
 		return
 	}
 
@@ -44,7 +46,7 @@ func (ac AccountController) RegisterAccount(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error ": "Erro ao criar a conta",
+			"error ": "Erro ao criar a conta",
 		})
 		return
 	}
@@ -75,4 +77,30 @@ func (ac *AccountController) ChangeStatus(c *gin.Context) {
 	}
 
 	ac.accountService.ChangeStatus(uint(id), userID)
+}
+
+func (ac *AccountController) FindAllAccountsByID(c *gin.Context) {
+	userID, exists := c.Get("user_id")
+
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "ID não encontrado",
+		})
+		return
+	}
+
+	id := userID.(uint)
+
+	accounts, err := ac.accountService.FindAllAccountsByUserID(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Erro ao consultar contas, tente novamente mais tarde...",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"accounts": accounts,
+	})
 }

@@ -20,7 +20,9 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
 	var user *model.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Erro ao cadastrar usuário",
+		})
 		return
 	}
 
@@ -31,9 +33,13 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
 	)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Erro ao cadastrar usuário",
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, user)
+	c.JSON(http.StatusCreated, gin.H{
+		"user": user,
+	})
 }

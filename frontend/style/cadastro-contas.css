@@ -1,0 +1,105 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fundo */
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Botão voltar */
+body > button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+body > button:hover {
+    background: #574fd6;
+}
+
+/* Container */
+body > div {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+body > div h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Subtexto */
+body > div p {
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+}
+
+/* Mensagem de status */
+#logInfo {
+    font-size: 13px;
+    color: red;
+    text-align: center;
+    min-height: 16px;
+}
+
+/* Inputs */
+body > div input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+body > div input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+}
+
+/* Botão cadastrar */
+#btn-cadastrar {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #6c63ff;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#btn-cadastrar:hover {
+    background: #574fd6;
+}
+
+#btn-cadastrar:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}

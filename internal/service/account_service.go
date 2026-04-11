@@ -45,3 +45,13 @@ func (as *AccountService) ChangeStatus(accountID uint, userID uint) error {
 
 	return nil
 }
+
+func (as *AccountService) FindAllAccountsByUserID(userID uint) (*[]model.Account, error) {
+	accounts, err := as.accountRepository.FindAllAccountByUserID(userID)
+
+	if err != nil {
+		return nil, errors.New("Erro ao buscar as contas")
+	}
+
+	return &accounts, nil
+}
