@@ -11,7 +11,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := "host=localhost user=admin password=123 dbname=db_propay port=5432 sslmode=disable"
+	dsn := "host=localhost user=admin password=123 dbname=db_propay port=8080 sslmode=disable"
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
